@@ -1,6 +1,5 @@
 package indicators
 
-import "C"
 import (
 	"errors"
 	"github.com/hannessi/gOanda"
