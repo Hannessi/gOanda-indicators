@@ -14,7 +14,7 @@ type SMMAParams struct {
 	Reversed bool
 }
 
-func SMMA(period int, candlesticks []gOanda.Candlestick, additionalParams EMAParams) ([]float64, error) {
+func SMMA(period int, candlesticks []gOanda.Candlestick) ([]float64, error) {
 	return SMMAWithOptions(period, candlesticks, SMMAParams{
 		CandlePoint: "close",
 		RatePoint:   "mid",
@@ -52,7 +52,7 @@ func smma(period int, list []float64) []float64 {
 		}
 
 		total := sum(partialList)
-		smmaSlice = append(smmaSlice, (total-smmaSlice[i-1])/float64(period))
+		smmaSlice = append(smmaSlice, (total-smmaSlice[i-1])/float64(len(partialList)))
 	}
 
 	return smmaSlice
