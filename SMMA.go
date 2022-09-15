@@ -57,7 +57,8 @@ func smma(period int, list []float64) []float64 {
 		if len(partialList) ==1 {
 			value = total
 		} else {
-			value = (total-smmaSlice[i-1])/float64(len(partialList)-1)
+			prevSum := smmaSlice[i-1] * float64(len(partialList)-1)
+			value = (prevSum-smmaSlice[i-1]+list[i])/float64(len(partialList)-1)
 		}
 
 		smmaSlice = append(smmaSlice, value)
