@@ -27,11 +27,11 @@ func SMMAWithOptions(period int, candlesticks []gOanda.Candlestick, additionalPa
 		return nil, err
 	}
 
-	if len(candlesticks) <= period*3 {
+	if len(candlesticks) <= period*2 {
 		return nil, errors.New("not enough data points to provide an accurate EMA")
 	}
 
-	if !additionalParams.Reversed {
+	if additionalParams.Reversed {
 		rates = reverse(rates)
 	}
 
@@ -51,8 +51,16 @@ func smma(period int, list []float64) []float64 {
 			partialList = list[(i-period):i]
 		}
 
+		var value float64
 		total := sum(partialList)
-		smmaSlice = append(smmaSlice, (total-smmaSlice[i-1])/float64(len(partialList)))
+
+		if len(partialList) ==1 {
+			value = total
+		} else {
+			value = (total-smmaSlice[i-1])/float64(len(partialList)-1)
+		}
+
+		smmaSlice = append(smmaSlice, value)
 	}
 
 	return smmaSlice
